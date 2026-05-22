@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Teachers{% endblock %}
+{% block content %}
+<h1>Teachers <a href="{% url 'add_teacher' %}" class="btn btn-success">+ Add Teacher</a></h1>
+
+<div class="card">
+    <table>
+        <tr>
+            <th>Name</th><th>Age</th><th>Salary</th><th>Courses</th><th>Actions</th>
+        </tr>
+        {% for t in teachers %}
+        <tr>
+            <td>{{ t.name }}</td>
+            <td>{{ t.age }}</td>
+            <td>{{ t.salary }}</td>
+            <td>{% for c in t.courses.all %}{{ c.name }}{% if not forloop.last %}, {% endif %}{% empty %}No courses{% endfor %}</td>
+            <td style="white-space:nowrap">
+                <a href="{% url 'edit_teacher' t.id %}" class="btn btn-primary btn-sm">Edit</a>
+                <a href="{% url 'delete_teacher' t.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Delete {{ t.name }}?')">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No teachers found.</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

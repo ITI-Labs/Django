@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Assign Teacher{% endblock %}
+{% block content %}
+<h1>Assign Teacher to Course</h1>
+<div class="card">
+    <p><strong>Course:</strong> {{ course.name }} ({{ course.level }})</p>
+    <p><strong>Current Teacher:</strong> {% if course.teacher %}{{ course.teacher.name }}{% else %}None{% endif %}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Select Teacher</label>
+        <select name="teacher_id" required>
+            <option value="">-- Choose --</option>
+            {% for t in teachers %}
+            <option value="{{ t.id }}" {% if course.teacher and course.teacher.id == t.id %}selected{% endif %}>{{ t.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-success" style="margin-top:15px">Assign</button>
+        <a href="{% url 'course_filter' %}" class="btn btn-warning" style="margin-top:15px">Back</a>
+    </form>
+</div>
+{% endblock %}

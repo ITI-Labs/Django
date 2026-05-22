@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Courses{% endblock %}
+{% block content %}
+<h1>Courses <a href="{% url 'add_course' %}" class="btn btn-success">+ Add Course</a></h1>
+<div class="card">
+    <form method="GET" style="display:flex;gap:10px;align-items:center">
+        <label style="margin:0;white-space:nowrap">Hours:</label>
+        <input type="number" name="hours" value="{{ hours }}" placeholder="e.g. 40" style="width:150px">
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="{% url 'course_filter' %}" class="btn btn-warning">Clear</a>
+    </form>
+</div>
+<div class="card">
+    <table>
+        <tr>
+            <th>Name</th><th>Hours</th><th>Level</th><th>Teacher</th><th>Actions</th>
+        </tr>
+        {% for c in courses %}
+        <tr>
+            <td>{{ c.name }}</td>
+            <td>{{ c.hours }}</td>
+            <td>{{ c.level }}</td>
+            <td>{% if c.teacher %}{{ c.teacher.name }}{% else %}<span style="color:red">No teacher</span>{% endif %}</td>
+            <td style="white-space:nowrap">
+                <a href="{% url 'assign_teacher' c.id %}" class="btn btn-warning btn-sm">Teacher</a>
+                <a href="{% url 'edit_course' c.id %}" class="btn btn-primary btn-sm">Edit</a>
+                <a href="{% url 'delete_course' c.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Delete {{ c.name }}?')">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No courses found.</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

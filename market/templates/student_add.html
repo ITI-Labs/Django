@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}{% if student %}Edit{% else %}Add{% endif %} Student{% endblock %}
+{% block content %}
+<h1>{% if student %}Edit{% else %}Add{% endif %} Student</h1>
+<div class="card">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Name</label>
+        <input type="text" name="name" value="{{ student.name|default:'' }}" required>
+
+        <label>Phone</label>
+        <input type="text" name="phone" value="{{ student.phone|default:'' }}" required>
+
+        <label>Age</label>
+        <input type="number" name="age" value="{{ student.age|default:'' }}" required>
+
+        <label>Gender</label>
+        <select name="gender" required>
+            <option value="M" {% if student.gender == 'M' %}selected{% endif %}>Male</option>
+            <option value="F" {% if student.gender == 'F' %}selected{% endif %}>Female</option>
+        </select>
+
+        <label>Address</label>
+        <textarea name="address" required>{{ student.address|default:'' }}</textarea>
+
+        <label>Level</label>
+        <select name="level" required>
+            <option value="L1" {% if student.level == 'L1' %}selected{% endif %}>Level 1</option>
+            <option value="L2" {% if student.level == 'L2' %}selected{% endif %}>Level 2</option>
+            <option value="L3" {% if student.level == 'L3' %}selected{% endif %}>Level 3</option>
+            <option value="L4" {% if student.level == 'L4' %}selected{% endif %}>Level 4</option>
+            <option value="L5" {% if student.level == 'L5' %}selected{% endif %}>Level 5</option>
+            <option value="L6" {% if student.level == 'L6' %}selected{% endif %}>Level 6</option>
+        </select>
+
+        <label>Image{% if student.image %} (current: {{ student.image.name }}){% endif %}</label>
+        <input type="file" name="image">
+
+        <button type="submit" class="btn btn-success" style="margin-top:15px">Save</button>
+        <a href="{% url 'student_filter' %}" class="btn btn-warning" style="margin-top:15px">Back</a>
+    </form>
+</div>
+{% endblock %}

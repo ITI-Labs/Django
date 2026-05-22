@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}{% if course %}Edit{% else %}Add{% endif %} Course{% endblock %}
+{% block content %}
+<h1>{% if course %}Edit{% else %}Add{% endif %} Course</h1>
+<div class="card">
+    <form method="POST">
+        {% csrf_token %}
+        <label>Name</label>
+        <input type="text" name="name" value="{{ course.name|default:'' }}" required>
+
+        <label>Hours</label>
+        <input type="number" name="hours" value="{{ course.hours|default:'' }}" required>
+
+        <label>Level</label>
+        <select name="level" required>
+            <option value="L1" {% if course.level == 'L1' %}selected{% endif %}>Level 1</option>
+            <option value="L2" {% if course.level == 'L2' %}selected{% endif %}>Level 2</option>
+            <option value="L3" {% if course.level == 'L3' %}selected{% endif %}>Level 3</option>
+            <option value="L4" {% if course.level == 'L4' %}selected{% endif %}>Level 4</option>
+            <option value="L5" {% if course.level == 'L5' %}selected{% endif %}>Level 5</option>
+            <option value="L6" {% if course.level == 'L6' %}selected{% endif %}>Level 6</option>
+        </select>
+
+        <label>Teacher</label>
+        <select name="teacher_id">
+            <option value="">-- No teacher --</option>
+            {% for t in teachers %}
+            <option value="{{ t.id }}" {% if course and course.teacher_id == t.id %}selected{% endif %}>{{ t.name }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="btn btn-success" style="margin-top:15px">Save</button>
+        <a href="{% url 'course_filter' %}" class="btn btn-warning" style="margin-top:15px">Back</a>
+    </form>
+</div>
+{% endblock %}

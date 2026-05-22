@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Add Course{% endblock %}
+{% block content %}
+<h1>Add Course to Student</h1>
+<div class="card">
+    <p><strong>Student:</strong> {{ student.name }} ({{ student.level }})</p>
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <label>Select Course</label>
+        <select name="course_id" required>
+            <option value="">-- Choose --</option>
+            {% for c in courses %}
+            <option value="{{ c.id }}">{{ c.name }} ({{ c.level }}){% if not c.teacher %} - No Teacher{% endif %}</option>
+            {% endfor %}
+        </select>
+        <label>Grade (optional)</label>
+        <input type="text" name="grade" placeholder="e.g. A, B, C..." maxlength="2">
+        <button type="submit" class="btn btn-success" style="margin-top:15px">Enroll</button>
+        <a href="{% url 'student_filter' %}" class="btn btn-warning" style="margin-top:15px">Back</a>
+    </form>
+</div>
+{% endblock %}

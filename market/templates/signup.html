@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up{% endblock %}
+{% block content %}
+<div style="max-width:400px;margin:50px auto">
+    <h1>Sign Up</h1>
+    <div class="card">
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <label>Username</label>
+            <input type="text" name="username" required>
+            <label>Email</label>
+            <input type="email" name="email">
+            <label>Password</label>
+            <input type="password" name="password" required>
+            <button type="submit" class="btn btn-success" style="margin-top:15px;width:100%">Sign Up</button>
+        </form>
+        <p style="margin-top:15px;text-align:center">Already have an account? <a href="{% url 'login_view' %}">Login</a></p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}{% if teacher %}Edit{% else %}Add{% endif %} Teacher{% endblock %}
+{% block content %}
+<h1>{% if teacher %}Edit{% else %}Add{% endif %} Teacher</h1>
+<div class="card">
+    <form method="POST">
+        {% csrf_token %}
+        <label>Name</label>
+        <input type="text" name="name" value="{{ teacher.name|default:'' }}" required>
+
+        <label>Age</label>
+        <input type="number" name="age" value="{{ teacher.age|default:'' }}" required>
+
+        <label>Salary</label>
+        <input type="number" step="0.01" name="salary" value="{{ teacher.salary|default:'' }}" required>
+
+        <button type="submit" class="btn btn-success" style="margin-top:15px">Save</button>
+        <a href="{% url 'teacher_filter' %}" class="btn btn-warning" style="margin-top:15px">Back</a>
+    </form>
+</div>
+{% endblock %}
